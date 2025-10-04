@@ -1,5 +1,6 @@
 select * from dba_pdbs;
 
+
 --------------------------------------------------------------
 
 select * from v$instance;
@@ -14,6 +15,9 @@ create pluggable database KEO_PDB
     ADMIN USER root identified by 1111  
     roles=(CONNECT)
     CREATE_FILE_DEST='/opt/oracle/oradata/KEO/';
+    
+    
+    alter pluggable database KEO_PDB open;
     
     
 --------------------------------------------------------------
@@ -71,9 +75,10 @@ grant
     create user U1_KEO_PDB identified by 12345
     default tablespace ts_KEO quota unlimited on ts_KEO
     temporary tablespace TS_KEO_TEMP
-    account unlock
-    password expire;
+    account unlock;
     
+    
+    grant RL_KEOCORE to U1_KEO_PDB;
 -----------------------------------------------------------
 
 create table KEO_table
@@ -120,6 +125,7 @@ grant create session to c##KEO;
 
 grant SYSDBA to c##KEO;
 
+drop user c##KEO;
 
 -----------------------------------------------------------
 
