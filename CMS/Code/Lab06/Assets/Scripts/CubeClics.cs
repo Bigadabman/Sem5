@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 public class CubeClics : MonoBehaviour, IPointerClickHandler
 {
 
-    
+   
 
 
     public void OnPointerClick(PointerEventData eventData)
