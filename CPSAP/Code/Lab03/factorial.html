@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>factorial</title>
+</head>
+<body>
+    <div id='content'></div>
+</body>
+    <script>
+    async function processFactorials(){
+        let url = 'http://localhost:5000/fact';
+        let container = document.getElementById('content');
+        const startTime = Date.now();
+
+        for(let i = 0; i < 20; i++){
+            
+           await fetch(`/fact?k=${i}`)
+                .then(response=>{
+                    if (!response.ok) {
+                        throw new Error('Response was not OK');
+                    }
+                    return response.json();
+                })
+                .then(data=>{
+                    const passedTime = Date.now() - startTime;
+                    container.innerHTML+=`<p>${i}.Результат: ${passedTime}-${data.k}/${data.fact}</p>`;
+                })
+                .catch(error => {
+                    container.innerHTML+=error;
+                });
+
+        }
+}
+    processFactorials();
+    </script>
+</html>

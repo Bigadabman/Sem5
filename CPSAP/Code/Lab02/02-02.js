@@ -8,18 +8,9 @@ http.createServer(function (request, response){
         const fname='./bobr.png';
         var png = fs.readFileSync(fname);
 
-        fs.stat(fname, (err, stat)=>{
-
-            if(err){console.log('error: ', err)}
-            else{
-                response.writeHead(200, {'Content-Type': 'image/png', 'content-length': stat.size});
-                response.end(png, 'binary');
-
-            }
-        })
-
-
-        
+                  
+        response.writeHead(200, {'Content-Type': 'image/png'});
+        response.end(png);
 
     }
     else{

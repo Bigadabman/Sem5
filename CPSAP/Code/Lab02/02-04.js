@@ -8,7 +8,7 @@ http.createServer(function (request, response) {
         response.end(xmlhttprequest);
     }
     else if (request.url == "/api/name") {
-        response.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
+        response.writeHead(200, {'content-type': 'text/plain; charset=utf-8' });
         response.end('Коробов Егор Олегович');
     }
     else {
