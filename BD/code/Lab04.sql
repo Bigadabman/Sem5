@@ -137,6 +137,7 @@ alter database drop logfile group 3;
 select * from v$logfile;
 select * from v$log;
 
+
 --14---------------------------------------------------------------------------
 
 select NAME, log_mode from v$database;
