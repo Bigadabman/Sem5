@@ -9,8 +9,6 @@ http.createServer(function(request, response){
         const k = parseInt(parsedUrl.query.k);
 
        
-
-
         if(request.method=='GET' && parsedUrl.pathname == '/fact' && !isNaN(k)){
 
             const fact = factorial(k);
@@ -61,7 +59,8 @@ function factorial(n){
 
 }
 
-// 1 общая продолжительность цикла - 98мс
-//
+// 1 вкладка - 98мс
+// 2 вкладки - 220мс и 191мс
+// 3 вклдаки - 254мс, 203мс и 205мс
 
 

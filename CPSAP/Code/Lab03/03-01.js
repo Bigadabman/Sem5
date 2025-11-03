@@ -1,11 +1,5 @@
 var http = require('http');
 const { stdin } = require('process');
-var readline = require('readline');
-
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-})
 
 
 var appStatus = "norm";
@@ -26,34 +20,31 @@ http.createServer(function(request, response){
 
 console.log('Server running at http://localhost:5000/')
 
+process.stdin.setEncoding('utf-8');
 
 
-const changeState = () => {
+process.stdout.write(`${appStatus}->`);
+process.stdin.on('data', (data) => {
+  const input = data.trim().toLowerCase();
 
-    rl.question(`${appStatus}-> `, (input)=>{
+  switch (input) {
+    case 'exit':
+      process.exit(0);
+      break;
 
-         input = input.trim().toLowerCase();
+    case 'norm':
+    case 'stop':
+    case 'idle':
+      console.log(`reg = ${appStatus} --> ${input}`);
+      appStatus = input;
+      break;
 
-        if(input=='exit'){
-            console.log('Now exiting')
+    default:
+      console.log(`${input}`);
+      break;
+  }
 
-            rl.close();
-            process.exit(0);
+  process.stdout.write(`${appStatus}->`);
+});
 
-        }
-        else if(['norm', 'stop', 'test', 'idle'].includes(input)){
-            console.log(`reg = ${appStatus}--> ${input}`);
-            appStatus=input;
-        }
-        else{
-            console.log(`${appStatus}--> ${input}`);
-        }
-
-   changeState();
-    });
-
- 
-}
-
-changeState();
 
