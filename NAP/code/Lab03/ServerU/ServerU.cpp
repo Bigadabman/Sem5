@@ -69,6 +69,7 @@ int main(int argc, TCHAR* argv[])
 
 
         while (true) {
+            Sleep(0);
             lb = recvfrom(sS, ibuf, sizeof(ibuf), NULL, (sockaddr*)&clnt, &lc);
 
             if (lb == SOCKET_ERROR)
