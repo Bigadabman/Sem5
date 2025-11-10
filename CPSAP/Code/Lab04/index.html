@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04-02</title>
+</head>
+<body>
+    
+    <div id="get_result"></div>
+    <button onclick="Get()">GET</button>
+
+    <script>
+        console.log('GET');
+
+        var url = 'http://localhost:5000/api/db';
+        let get_container = document.getElementById('get_result');
+
+        function Get(){
+            console.log('GET');
+            get_container.innerHTML = "";
+
+            fetch(url, {
+                        method: "GET", mode:"no-cors",
+                        headers:{'Content-Type':'application/json', 'Accept':'application/json'}
+            })
+            .then(response =>{
+                if(!response.ok)
+                    throw new Error('Response was not ok');
+
+                return response.json();
+            })
+            .then((data)=>{
+                data.forEach(person => {
+                    get_container.innerHTML+=`<p>${person.id}: ${person.name}, ${person.bday}`; 
+                });
+            })
+        }
+    </script>
+
+
+    <div id="Post-form-container" style="margin-top: 50px;">
+        <div class="row">
+            <label>Id:</label>
+            <input type="number" id="id-getter" min="1">
+        </div>
+        <div class="row">
+            <label>Name:</label>
+            <input type="text" id="name-getter">
+        </div>
+        <div class="row">
+            <lable>Birthday:</lable>
+            <input type="date" id="bday-getter">
+        </div>
+        <div class="row">
+            <button onclick="Post()">POST</button>
+        </div>
+    </div>
+
+
+    <script>
+        console.log('POST');
+
+        let ID = document.getElementById('id-getter');
+        let NAME = document.getElementById('name-getter');
+        let BDAY = document.getElementById('bday-getter');
+
+
+        function Post(){
+            fetch(url,{
+                        method:'POST', mode:"no-cors",
+                        headers:{'Content-Type':'application/json', 'Accept':'application/json'},
+                        body:JSON.stringify({id:ID.value, name: NAME.value, bday: BDAY.value})
+            })
+            .then(response => {
+                ID.value = "";
+                return response.json();
+            })
+            .then(pdata=>{console.log('Post.pdata: ', pdata)})
+            .catch(err =>{console.log('Post error: ', err)})
+        }
+    </script>
+
+
+    <div id="put-container" style="margin-top: 50px;">
+        <div class="row">
+            <label>Id:</label>
+            <input type="number" id="put-id-getter" min="1">
+        </div>
+        <div class="row">
+            <label>Name:</label>
+            <input type="text" id="put-name-getter">
+        </div>
+        <div class="row">
+            <lable>Birthday:</lable>
+            <input type="date" id="put-bday-getter">
+        </div>
+        <div class="row">
+            <button onclick="Put()">PUT</button>
+        </div>
+    </div>
+
+    <script>
+        console.log('PUT');
+
+        let PID = document.getElementById('put-id-getter');
+        let PNAME = document.getElementById('put-name-getter');
+        let PBDAY = document.getElementById('put-bday-getter');
+
+        function Put(){
+            fetch(url, {
+                        method:'PUT',
+                        headers:{'Content-Type':'application/json', 'Accept':'application/json'},
+                        body:JSON.stringify({id:PID.value, name: PNAME.value, bday: PBDAY.value})
+            })
+            .then(response => {return response.json();})
+            .then(data => {
+                console.log('Put data: ', data)
+            })
+            .catch(err =>{console.log('Put error: ', err)});
+        }
+
+    </script>
+
+
+
+     <div id="delete-container" style="margin-top: 50px;">
+        <div class="row">
+            <label>Id:</label>
+            <input type="number" id="delete-id-getter" min="1">
+        </div>
+        <div class="row">
+            <button onclick="Delete()">DELETE</button>
+        </div>
+    </div>
+
+
+    <script>
+        let DID = document.getElementById('delete-id-getter');
+
+        function Delete(){
+            fetch(url+`?id=${DID.value}`, {
+                        method: "DELETE",
+                        headers: {'Content-Type':'application/json', 'Accept':'application/json'},
+            })
+            .then(response => {return response.json();})
+            .then(data => {
+                console.log('Delete data: ', data);
+            })
+            .catch(err =>{console.log('Delete error: ', err)});
+        }
+    </script>
+
+
+</body>
+</html>
