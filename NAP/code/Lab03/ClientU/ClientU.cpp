@@ -37,7 +37,7 @@ int _tmain(int argc, _TCHAR* argv[]) {
 		serv.sin_family = AF_INET;
 		serv.sin_port = htons(2000);
 		//serv.sin_addr.s_addr = inet_addr("127.0.0.1");
-		if (inet_pton(AF_INET, "127.0.0.1", &serv.sin_addr.S_un.S_addr) <= 0)
+		if (inet_pton(AF_INET, "10.70.57.96", &serv.sin_addr.S_un.S_addr) <= 0)
 			throw SetErrorMsgText("Failed to set IP address: ", WSAGetLastError());
 
 		int servSize = sizeof(serv);

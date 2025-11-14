@@ -16,7 +16,7 @@ db.on('POST', async(request, response) => {
         let dat = JSON.parse(data);
         db.insert(dat);
         response.writeHead(200, {'Content-Type':'application/json; charset=utf-8'});
-        response.end(JSON.stringify(db.select()));
+        response.end(JSON.stringify(dat));
     })
 });
 
@@ -26,7 +26,7 @@ db.on('PUT', async(request, response) => {
         let dat = JSON.parse(data);
         db.update(dat);
         response.writeHead(200, {'Content-Type':'application/json; charset=utf-8'});
-        response.end(JSON.stringify(db.select()));
+        response.end(JSON.stringify(dat));
     })
 });
 

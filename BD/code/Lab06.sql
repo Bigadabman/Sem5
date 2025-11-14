@@ -1,6 +1,7 @@
 --1-----------------------------------------------------------------------
 
 -- sqlplus
+
 -- cat oradata/dbconfig/FREE/sqlnet.ora
 
 -- cat oradata/dbconfig/FREE/tnsnames.ora
@@ -14,15 +15,12 @@
 --3---------------------------------------------------------------------
 
 -- sqlplus
--- select * from dba_tablespaces;
--- select * from dba_data_files;
--- select * from dba_roles;
--- select * from dba_users;
 
+-- select tablespace_name from dba_tablespaces;
+-- select file_name, tablespace_name from dba_data_files;
+-- select role from dba_roles;
+-- select username from dba_users;
 
---4----------------------------------------------------------------------
-
---Пропускаем
 
 --5-----------------------------------------------------------------------
 
@@ -41,7 +39,7 @@
 
 -- sqlplus
 
--- connect C##KEO/1111@C##KEOCONECTION;
+-- connect C##KEO/1111@C##KEO_CONECTION;
 
 
 --7----------------------------------------------------------------------
