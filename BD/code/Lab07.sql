@@ -15,6 +15,8 @@ grant create cluster to keo;
 grant create synonym to keo; 
 grant create public SYNONYM to keo; 
 grant create view to keo;
+grant drop public synonym to keo;
+grant drop any synonym to keo;
 grant create materialized view to keo;
 grant create SEQUENCE 
 to keo;
@@ -24,9 +26,13 @@ select * from dba_sys_privs where grantee = 'KEO';
 
 --2-----------------------------------------------------------------
 
+drop sequence S1;
+
 create sequence S1 start with 1000 increment by 10
 nominvalue nomaxvalue
 nocycle nocache noorder;
+
+
 
 select S1.nextval from dual;
 select S1.nextval from dual;
@@ -36,6 +42,7 @@ select S1.currval from dual;
 
 --3------------------------------------------------------------------
 
+drop sequence S2;
 
 create sequence S2 start with 10 
 increment by 10
@@ -46,6 +53,10 @@ nocycle;
 select S2.nextval from dual;
 
 --5-------------------------------------------------------------------
+
+
+drop sequence S3;
+
 
 create sequence S3 start with 10
 increment by -10
@@ -59,6 +70,10 @@ select S3.nextval from dual;
 
 
 --6-------------------------------------------------------------------
+
+
+drop sequence S4;
+
 
 create sequence S4 start with 1
 increment by 1
@@ -75,6 +90,8 @@ select * from user_sequences;
 
 --8------------------------------------------------------------------
 
+drop table T1 purge;
+
 create table T1(
 N1 number(20),
 N2 number(20),
@@ -88,7 +105,7 @@ insert into T1 values(S1.nextval, S2.nextval, S3.nextval, S4.nextval);
 select * from T1;
 
 --9-------------------------------------------------------------------
-
+drop cluster ABC including tables;
 
 create cluster ABC(
 X number(10),
@@ -97,6 +114,8 @@ V varchar(12)
 
 
 --10-----------------------------------------------------------------
+drop table A purge;
+
 
 create table A(
 XA number(10),
@@ -105,6 +124,8 @@ YA number(10)
 ) cluster ABC(XA,VA);
 
 --11----------------------------------------------------------------
+
+drop table B purge;
 
 create table B(
 XB number(10),
@@ -115,6 +136,8 @@ YB number(10)
 insert into B values(1, '1', 1);
 
 --12----------------------------------------------------------------
+drop table C purge;
+
 
 create table C(
 XC number(10),
@@ -131,17 +154,24 @@ select * from user_tables;
 
 --14----------------------------------------------------------------
 
+drop synonym SC;
+
+
 create synonym SC for KEO.C;
 
 select * from SC;
 
 --15----------------------------------------------------------------
 
+drop public synonym SB;
+
 create public synonym SB for KEO.B;
 
 select * from SB;
 
 --16----------------------------------------------------------------
+
+
 
 create table A4(
 XA number(10) primary key,
@@ -180,6 +210,10 @@ next sysdate + 2/1440
 as 
 Select * from A4 inner join B4 on XA=XB;
 
+exec dbms_mview.refresh('MV', 'COMPLETE');
+
+commit;
+insert into B4  values(7,'1',2);
 
 select * from MV;
 
