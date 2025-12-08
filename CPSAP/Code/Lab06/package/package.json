@@ -1,0 +1,24 @@
+{
+  "name": "m0603_bigadabman",
+  "version": "1.0.1",
+  "description": "Nodejs module for sending emails using Nodemailer",
+  "main": "m0603.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bigadabman"
+  },
+  "keywords": [
+    "send",
+    "email",
+    "to",
+    "keomailer6@gmail.com"
+  ],
+  "author": "bigadabman",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemailer": "^7.0.10"
+  }
+}
