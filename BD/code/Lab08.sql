@@ -2,7 +2,6 @@ ALTER PLUGGABLE DATABASE KEO_PDB OPEN;
 
 --1-----------------------------------------------------------
 
-Declare
     begin
         null;
     end;
@@ -60,7 +59,6 @@ end;
 
 
 select * from v$parameter where name = 'plsql_warnings';
-
 
 --6---------------------------------------------------------------
 

@@ -357,11 +357,11 @@ end;
 
 
 declare
-    type cAud SYS_REFCURSOR;
+    cAud SYS_REFCURSOR;
    vAud auditorium%rowtype;
    
    lowerLimit number := 90;
-   upperLinit number := 150;
+   upperLimit number := 150;
    
     begin
         open cAud for
