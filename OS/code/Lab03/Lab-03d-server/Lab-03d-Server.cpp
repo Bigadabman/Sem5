@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
 
 		int range = (upperLimit - lowerLimit + 1) / processesAmount;
 
-
+		ULONGLONG appStart = GetTickCount64();
 		for (int i = 0; i < processesAmount; i++) {
 
 
@@ -79,7 +79,7 @@ int main(int argc, char* argv[]) {
 			char cmdLine[512];
 			sprintf_s(cmdLine, sizeof(cmdLine), "Lab-03d-client.exe %d %d", procLowerLimit, procUpperLimit);
 			
-
+			
 
 			if (!CreateProcessA(NULL,
 				(LPSTR)cmdLine,
@@ -107,14 +107,14 @@ int main(int argc, char* argv[]) {
 		CloseHandle(hWritePipe);
 
 
-		char buffer[1024];
-		DWORD bytesRead;
+		/*char buffer[1024];
+		DWORD bytesRead;*/
 
 
-		while (ReadFile(hReadPipe, buffer, sizeof(buffer) - 1, &bytesRead, NULL) && bytesRead > 0) {
+		/*while (ReadFile(hReadPipe, buffer, sizeof(buffer) - 1, &bytesRead, NULL) && bytesRead > 0) {
 			buffer[bytesRead] = '\0';
 			std::cout << buffer<<"\n";
-		}
+		}*/
 
 
 
@@ -126,7 +126,10 @@ int main(int argc, char* argv[]) {
 
 
 		CloseHandle(hReadPipe);
-		
+		  ULONGLONG appEnd = GetTickCount64(); 
+
+        std::cout << "Îבשוו גנולÿ נאבמעû ןנמדנאללû: "
+            << (appEnd - appStart) << " לס\n";
 
 
 		delete[] processes;
