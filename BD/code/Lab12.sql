@@ -110,7 +110,7 @@ begin
         operation := 'delete';
     end if;
      dbms_output.put_line('триггер OPERATOR_BEFORE_ALL');
-    insert into audit_log values(to_char(sysdate, 'DD/MM/YYYY HH24:MI:SS'), operation, 'operator_before_all', null);    
+    insert into audit_log values(sysdate, operation, 'operator_before_all', null);    
 end;
 
 
@@ -135,7 +135,7 @@ begin
         dbms_output.put_line('deleting триггер ROW_BEFORE_ALL');
     end if;
     
-    insert into audit_log values (to_char(sysdate, 'DD/MM/YYYY HH24:MI:SS'), operation, 'row_before_all', data);
+    insert into audit_log values (sysdate, operation, 'row_before_all', data);
 end;
 
 

@@ -134,7 +134,7 @@ begin
 end GET_NUM_SUBJECTS;
     
 begin
-    dbms_output.put_line('Дисциплин на факультете: ' || get_num_subjects('ИСиТ'));
+    dbms_output.put_line('Дисциплин на кафедре: ' || get_num_subjects('ИСиТ'));
 end;
 
 
