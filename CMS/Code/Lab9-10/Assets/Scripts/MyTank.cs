@@ -13,8 +13,11 @@ public class mytank : MonoBehaviour
 
     Transform bash;			//- объектная переменная для управления башней
     Transform stv; 			//- объектная переменная для управления стволом
-    int TankMoveSpeed = 20;// - для регулирования скорости движения танка
+    float TankMoveSpeed = 20f;// - для регулирования скорости движения танка
     float RotateSpeed = 0.5f; 	// - для регулирования скорости вращения башни
+
+
+
 
     AudioSource source_tank;
     bool isPlaying = false;
@@ -94,6 +97,24 @@ public class mytank : MonoBehaviour
 
 
     }
+
+
+    private float h = -170;
+    void OnGUI()
+    {
+        GUI.BeginGroup(new Rect(10, h, 250, 300));
+        GUI.Box(new Rect(10, 0, 200, 200), "УПРАВЛЕНИЕ СКОРОСТЬЮ");
+        GUI.Label(new Rect(15, 30, 200, 30), "Скорость танка  " + TankMoveSpeed + "  ");
+        TankMoveSpeed = GUI.HorizontalSlider(new Rect(15, 50, 170, 30), TankMoveSpeed, 0.0f, 20.0f);
+        if (GUI.Button(new Rect(10, 170, 90, 20), "Скрыть ПУ")) { Hide(); }
+        if (GUI.Button(new Rect(100, 170, 90, 20), "Показать ПУ")) { Show(); }
+        GUI.EndGroup();
+    }
+    public void Hide() { h = -170; }
+    public void Show() { h = 0; }
+
+
+
 
 
     void SpawnBombs(int count)
