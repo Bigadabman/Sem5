@@ -5,7 +5,7 @@ grant create procedure to keo;
 --1------------------------------------------------------------------
 select * from teacher;
 
-create or replace procedure GET_TEACHERS(pcode teacher.pulpit%TYPE)
+declare  procedure GET_TEACHERS(pcode teacher.pulpit%TYPE)
 is
 begin
     for teacher in (select * from teacher where pulpit = pcode)
@@ -14,7 +14,7 @@ begin
         
     end loop;
     
-end;
+end GET_TEACHERS;
 
 begin
     GET_TEACHERS('ИСиТ');   
@@ -171,8 +171,10 @@ create or replace package body TEACHERS is
   function GET_NUM_TEACHERS(FCODE FACULTY.FACULTY%TYPE) return number
     is
     num number;
+    cCur SYS_REFCURSOR;
   begin
-    select count(*) into num from TEACHER where PULPIT in (select PULPIT from PULPIT where FACULTY = FCODE);
+    open cCur for  select count(*) from TEACHER where PULPIT in (select PULPIT from PULPIT where FACULTY = FCODE);
+    fetch cCur into num;
     return num;
   end;
 
@@ -191,12 +193,8 @@ begin
     dbms_output.put_line('-------------------------------------------');
     TEACHERS.get_subjects('ИСиТ');
     dbms_output.put_line('-------------------------------------------');
-    dbms_output.put_line('Преподавателей на факультете ИДиП: ' || get_num_teachers('ИДиП'));
+    dbms_output.put_line('Преподавателей на факультете ИДиП: ' || TEACHERS.get_num_teachers('ИДиП'));
     dbms_output.put_line('-------------------------------------------');
-    dbms_output.put_line('Дисциплин на факультете: ' || get_num_subjects('ИСиТ'));
+    dbms_output.put_line('Дисциплин на факультете: ' || TEACHERS.get_num_subjects('ИСиТ'));
     
 end;
-
-
-
-

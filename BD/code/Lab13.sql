@@ -113,9 +113,11 @@ insert into T_RANGE values (201, sysdate);
 
 
 
+
 insert into T_INTERVAL values (1, '01-12-2023');
 insert into T_INTERVAL values (2, '01-02-2024');
 insert into T_INTERVAL values (3, '01-03-2025');
+
 
 
 insert into T_HASH values ('A1', 'one');
@@ -135,6 +137,8 @@ from user_tab_partitions
 where table_name like 'T_%'
 order by table_name;
 
+
+select * from T_RANGE partition(p1);
 --6---------------------------------------------------------------
 
 alter table T_RANGE enable row movement;
@@ -146,26 +150,24 @@ update T_RANGE set id = 250 where id = 1;
 update T_INTERVAL set TIME_ID = '02-06-2024' where TIME_ID = '01-12-2023';
 update T_HASH set code = 'Z9' where code = 'A1';
 update T_LIST set status = 'A' where descr ='other';
-
+commit;
 
 --можно посмотреть перенесенные строки в разделе
 select *
-from T_RANGE partition (p);
-
+from T_RANGE partition (p0);
 
 -- либо посмотреть статистикку пов всем разделам
 -- Если стата не обновляется - запустить exec
 exec dbms_stats.gather_table_stats(user, 'T_INTERVAL');
+exec dbms_stats.gather_table_stats(user, 'T_RANGE');
+exec dbms_stats.gather_table_stats(user, 'T_HASH');
+exec dbms_stats.gather_table_stats(user, 'T_LIST');
 
-select partition_name, num_rows
+select table_name, partition_name, num_rows, high_value
 from user_tab_partitions
-where table_name = 'T_INTERVAL'
-order by partition_position;
+where table_name like 'T_%'
+order by table_name;
 
-
-
-
-commit;
 
 --7---------------------------------------------------------------
 
@@ -174,7 +176,7 @@ alter table T_RANGE
 merge partitions p0, p1 into partition p1
 tablespace t1;
 
-select partition_name, num_rows
+select partition_name, num_rows, high_value
 from user_tab_partitions
 where table_name = 'T_RANGE'
 order by partition_position;
@@ -191,6 +193,10 @@ into
     partition p1
 );
 
+select partition_name, num_rows, high_value
+from user_tab_partitions
+where table_name = 'T_RANGE'
+order by partition_position;
 
 --9---------------------------------------------------------------
 
@@ -207,5 +213,7 @@ with table T_EXCHANGE
 without validation;
 
 select * from T_EXCHANGE;
+delete T_EXCHANGE;
+
 
 select * from T_RANGE partition (p0);

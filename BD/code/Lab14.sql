@@ -9,6 +9,7 @@ grant create job to keo;
 select * from BANK;
 select * from RICH_BANK_USERS;
 
+
 create table RICH_BANK_USERS(
 user_id number,
 name nvarchar2(50) not null, 
@@ -48,11 +49,9 @@ begin
     commit;
 
 end;
---4---- ну типо broken = N значит работает наверное
-select job, last_date, last_sec, this_date, this_sec, next_date, next_sec, interval, what from user_jobs;
+--4----
+select job, last_date, last_sec, this_date, this_sec, next_date, next_sec, interval, broken, what from user_jobs;
     
-select *
-from user_jobs_running; --? здесь хз
 
 select * from bank_log;
 
@@ -102,7 +101,6 @@ end;
 
 
 
-
 begin
 dbms_scheduler.create_schedule(
     schedule_name => 'sch_1',
@@ -133,8 +131,6 @@ schedule_name => 'sch_1',
 enabled => true
 );
 end;
-
-
 
 
 select program_name, enabled

@@ -11,6 +11,8 @@ name nvarchar2(50) not null,
 balance number(10,2) default 0 check(balance >=0)
 );
 
+drop table BANK purge;
+
 
 --2----------------------------------------------------------
 
@@ -25,7 +27,7 @@ insert into bank(name, balance) values ('Александр', 30000);
 insert into bank(name, balance) values ('Павел', 1);
 insert into bank(name, balance) values ('Николай', 2);
 commit;
-
+delete BANK;
 
 select * from bank;
 
@@ -94,6 +96,7 @@ triggerName varchar2(20),
 Data varchar2(100)
 );
 
+drop table audit_log purge;
 
 --10------------------------------------------------------------------
 
@@ -192,10 +195,10 @@ delete bank;
 
 insert into bank values (1, 'Дмитрий', 1);
 
-
 --12----------------------------------------------------------
 
 drop table bank purge;
+drop trigger tr_drop_table;
 
 create or replace trigger tr_drop_table
 before drop on schema
@@ -209,14 +212,18 @@ end;
 --13----------------------------------------------------------
 
 alter trigger operator_before_all compile;
+alter trigger row_before_all compile;
+alter trigger operator_after_all compile;
+alter trigger row_after_all compile;
+
 
 drop table AUDIT_LOG;
 flashback table AUDIT_LOG to before drop;
-select TRIGGER_NAME, STATUS from USER_TRIGGERS;
-
 
 --14---------------------------------------------------------
 
+
+drop view vBank;
 
 create view vBank as
 select user_id, name, balance from BANK;

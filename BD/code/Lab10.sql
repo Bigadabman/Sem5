@@ -86,11 +86,8 @@ group by rollup( faculty.faculty, pulpit.pulpit);
 loop 
     fetch cSalary into aFaculty,aPulpit, aSalary;
     exit when cSalary%notfound;
-    if aFaculty is NULL then 
-     dbms_output.put_line('Общая: ' || aSalary);
-    else
-    dbms_output.put_line('Средняя по ' || trim(aFaculty) || ' ' || trim(aPulpit) || ': ' || aSalary);
-    end if;
+    dbms_output.put_line('Средняя ' || trim(aFaculty) || ' ' || trim(aPulpit) || ': ' || aSalary);
+
     
 end loop;
 
