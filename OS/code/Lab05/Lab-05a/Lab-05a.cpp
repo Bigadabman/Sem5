@@ -40,6 +40,42 @@ std::string MaskToBinaryString(uint64_t mask, unsigned int showBits = 16)
     return s;
 }
 
+
+int GetThreadPriorityProcessExplorer(DWORD processPriorityClass, int threadPriority)
+{
+    int basePriority = 0;
+
+
+    switch (processPriorityClass)
+    {
+    case IDLE_PRIORITY_CLASS:          basePriority = 4;  break;
+    case BELOW_NORMAL_PRIORITY_CLASS:  basePriority = 6;  break;
+    case NORMAL_PRIORITY_CLASS:        basePriority = 8;  break;
+    case ABOVE_NORMAL_PRIORITY_CLASS:  basePriority = 10; break;
+    case HIGH_PRIORITY_CLASS:          basePriority = 13; break;
+    case REALTIME_PRIORITY_CLASS:      basePriority = 24; break;
+    default:                           basePriority = 8;  break;
+    }
+
+    int relativePriority = 0;
+
+    switch (threadPriority)
+    {
+    case THREAD_PRIORITY_IDLE:           relativePriority = -15; break;
+    case THREAD_PRIORITY_LOWEST:         relativePriority = -2;  break;
+    case THREAD_PRIORITY_BELOW_NORMAL:   relativePriority = -1;  break;
+    case THREAD_PRIORITY_NORMAL:         relativePriority = 0;   break;
+    case THREAD_PRIORITY_ABOVE_NORMAL:   relativePriority = 1;   break;
+    case THREAD_PRIORITY_HIGHEST:        relativePriority = 2;   break;
+    case THREAD_PRIORITY_TIME_CRITICAL:  relativePriority = 15;  break;
+    default:                             relativePriority = 0;   break;
+    }
+
+    return basePriority + relativePriority;
+}
+
+
+
 unsigned int CountBits(uint64_t x)
 {
     unsigned int counter = 0;
@@ -55,7 +91,6 @@ int main(int argc, char* argv[]) {
     SetConsoleOutputCP(1251);
 
 
-    std::cout << "Pid: " << GetProcessPriority << std::endl;
     std::cout << "Pid: " << GetCurrentProcessId() << std::endl;
     std::cout << "Tid: " << GetCurrentThreadId() << std::endl;
 
@@ -66,7 +101,9 @@ int main(int argc, char* argv[]) {
     HANDLE thread = GetCurrentThread();
     int pr = GetThreadPriority(thread);
 
-    std::cout << "Thread priority: " << pr
+    int pePriority = GetThreadPriorityProcessExplorer(GetPriorityClass(proc), pr);
+
+    std::cout << "Thread priority: " << pePriority
         << " (" << GetThreadPriorityToString(pr) << ")" << std::endl;
 
     DWORD_PTR procMask;

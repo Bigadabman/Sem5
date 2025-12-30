@@ -41,6 +41,39 @@ std::string GetPriorityClassToString(DWORD priorityClass) {
 }
 
 
+int GetThreadPriorityProcessExplorer(DWORD processPriorityClass, int threadPriority)
+{
+	int basePriority = 0;
+
+
+	switch (processPriorityClass)
+	{
+	case IDLE_PRIORITY_CLASS:          basePriority = 4;  break;
+	case BELOW_NORMAL_PRIORITY_CLASS:  basePriority = 6;  break;
+	case NORMAL_PRIORITY_CLASS:        basePriority = 8;  break;
+	case ABOVE_NORMAL_PRIORITY_CLASS:  basePriority = 10; break;
+	case HIGH_PRIORITY_CLASS:          basePriority = 13; break;
+	case REALTIME_PRIORITY_CLASS:      basePriority = 24; break;
+	default:                           basePriority = 8;  break;
+	}
+
+	int relativePriority = 0;
+
+	switch (threadPriority)
+	{
+	case THREAD_PRIORITY_IDLE:           relativePriority = -15; break;
+	case THREAD_PRIORITY_LOWEST:         relativePriority = -2;  break;
+	case THREAD_PRIORITY_BELOW_NORMAL:   relativePriority = -1;  break;
+	case THREAD_PRIORITY_NORMAL:         relativePriority = 0;   break;
+	case THREAD_PRIORITY_ABOVE_NORMAL:   relativePriority = 1;   break;
+	case THREAD_PRIORITY_HIGHEST:        relativePriority = 2;   break;
+	case THREAD_PRIORITY_TIME_CRITICAL:  relativePriority = 15;  break;
+	default:                             relativePriority = 0;   break;
+	}
+
+	return basePriority + relativePriority;
+}
+
 
 int main(int argc, char* argv[]) {
 	SetConsoleCP(1251);
@@ -70,7 +103,7 @@ int main(int argc, char* argv[]) {
 
 			HANDLE thread = GetCurrentThread();
 
-			std::cout << "thread priority: " << GetThreadPriority(thread) << std::endl;
+			std::cout << "thread priority: " << GetThreadPriorityProcessExplorer(GetPriorityClass(proc), GetThreadPriority(thread)) << std::endl;
 
 			std::cout << "Processor number: " << GetCurrentProcessorNumber() << std::endl;
 
