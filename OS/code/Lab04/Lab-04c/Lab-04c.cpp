@@ -38,8 +38,8 @@ int main(int argc, char* argv[]) {
 	int iterations2 = 125;
 	int iterationsMain = 100;
 
-	HANDLE hThreads[2];
-	DWORD ThreadId1, ThreadId2;
+	HANDLE hThreads[3];
+	DWORD ThreadId1, ThreadId2, ThreadId3;
 	DWORD pid = GetCurrentProcessId();
 	DWORD tid = GetCurrentThreadId();
 
@@ -83,6 +83,28 @@ int main(int argc, char* argv[]) {
 	}
 
 
+	hThreads[2] = CreateThread(
+		NULL,
+		0,
+		(LPTHREAD_START_ROUTINE)Lab_04x,
+		(LPVOID)iterations2,
+		0,
+		&ThreadId2
+	);
+
+
+	if (hThreads[2] == NULL)
+	{
+
+		fprintf(stderr, "Ошибка создания третьего потока\n");
+		CloseHandle(hThreads[0]);
+		CloseHandle(hThreads[1]);
+		ExitProcess(1);
+	}
+
+
+
+
 	for (int i = 0; i < iterationsMain; i++) {
 
 		if (i == 40) {
@@ -109,6 +131,11 @@ int main(int argc, char* argv[]) {
 	if (!CloseHandle(hThreads[1]))
 	{
 		fprintf(stderr, "Ошибка при закрытии потока %lu: код %lu\n", ThreadId2, GetLastError());
+	}
+
+	if (!CloseHandle(hThreads[2]))
+	{
+		fprintf(stderr, "Ошибка при закрытии потока %lu: код %lu\n", ThreadId3, GetLastError());
 	}
 
 

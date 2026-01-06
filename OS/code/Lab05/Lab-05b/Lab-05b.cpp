@@ -107,16 +107,21 @@ int main(int argc, char* argv[]) {
 	}
 
 
+
+	HANDLE procs[2] = { pi[0].hProcess, pi[1].hProcess };
+
+	printf("Waiting for child processes...");
+
+	WaitForMultipleObjects(2, procs, TRUE, INFINITE);
+
 	for (int i = 0; i < 2; ++i)
 	{
 		if (pi[i].hProcess)
 		{
-			WaitForSingleObject(pi[i].hProcess, INFINITE);
 			CloseHandle(pi[i].hThread);
 			CloseHandle(pi[i].hProcess);
 		}
 	}
-
 
 
 	ExitProcess(0);
