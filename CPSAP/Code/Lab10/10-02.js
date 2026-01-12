@@ -9,9 +9,10 @@ ws.on('open', ()=>{
     console.log('socket.open');
     let SendInterval = setInterval(()=>{ws.send(`10-01-client: ${++k}`)}, 3000);
 
-    SendInterval .unref();
+ //   SendInterval.unref();
 
     setTimeout(() => {
+        clearInterval(SendInterval);
         ws.send('client closes socket');
         ws.close()
        }, 25000);

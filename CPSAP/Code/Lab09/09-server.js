@@ -37,10 +37,22 @@ const server = http.createServer(async (req, res) => {
       break;
 
     case parsedUrl.pathname == "/09-03" && req.method == "POST":
-      res.writeHead(200, { "content-type": "text/plain;charset=utf-8" });
-      res.end(
-        `09-03: x = ${parsedUrl.query.x}, y = ${parsedUrl.query.y}, s = ${parsedUrl.query.s}`
-      );
+
+    let body = '';
+
+    req.on('data', chunk => {
+        body += chunk;
+    });
+
+    req.on('end', () => {
+
+        let params = query.parse(body);
+
+        res.writeHead(200, { 'Content-Type': 'text/plain;charset=utf-8' });
+        res.end(
+            `09-03: x = ${params.x}, y = ${params.y}, s = ${params.s}`
+        );
+    });
 
       break;
 

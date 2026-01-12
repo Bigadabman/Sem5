@@ -18,9 +18,10 @@
         let socket = new WebSocket('ws://localhost:5000/ws');
 
         socket.onopen = () => { console.log('socket.open');
-            setInterval(()=>{socket.send(`10-01-client: ${++k}`)}, 3000);
+            let sendInterval = setInterval(()=>{socket.send(`10-01-client: ${++k}`)}, 3000);
 
             setTimeout(() => {
+                clearInterval(sendInterval);
                 socket.send('client closes socket');
                 socket.close()}, 25000);
 
